@@ -49,7 +49,18 @@ for feat in features:
 
 # Arka planda normalize et
 scaler = MinMaxScaler()
-scaler.fit([[ranges[f][0] for f in features], [ranges[f][1] for f in features]])
+min_vals = []
+max_vals = []
+
+for f in features:
+    if f in ranges:
+        min_vals.append(ranges[f][0])
+        max_vals.append(ranges[f][1])
+    else:
+        min_vals.append(0)
+        max_vals.append(1)
+
+scaler.fit([min_vals, max_vals])
 input_normalized = scaler.transform([input_values])
 
 # Tahmin
