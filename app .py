@@ -75,3 +75,18 @@ if st.button("📊 Tahmin Et"):
     else:
         st.error("❌ Tahmin: Öğrenci **KALDI**")
 
+# Devamsızlıktan otomatik kalma kontrolü (örnek eşik: 20 gün)
+absences_index = features.index("absences") if "absences" in features else None
+absences_value = input_values[absences_index] if absences_index is not None else 0
+
+# Tahmin yap
+if st.button("📊 Tahmin Et"):
+    if absences_value > 20:
+        st.warning("📛 Öğrenci devamsızlıktan KALDI (20 günden fazla)")
+    else:
+        result = model.predict(input_normalized)
+        if result[0] == 1:
+            st.success("🎉 Tahmin: Öğrenci **GEÇTİ** 🎓")
+        else:
+            st.error("❌ Tahmin: Öğrenci **KALDI**")
+
